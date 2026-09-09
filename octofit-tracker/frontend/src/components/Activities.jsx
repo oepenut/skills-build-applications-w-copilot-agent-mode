@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
+const activitiesApiUrl = import.meta.env.VITE_CODESPACE_NAME?.trim()
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME.trim()}-8000.app.github.dev/api/activities/`
+  : '/api/activities/'
+
 function Activities() {
   const [activities, setActivities] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchCollection('activities').then(setActivities).catch((loadError) => setError(loadError.message))
+    fetchCollection(activitiesApiUrl).then(setActivities).catch((loadError) => setError(loadError.message))
   }, [])
 
   return <CollectionPage title="Activity log" subtitle="Recent movement across your Octofit community." error={error}>
